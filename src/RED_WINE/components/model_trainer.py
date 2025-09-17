@@ -15,6 +15,7 @@ class ModelTrainr:
         test_data = pd.read_csv(self.config.test_data_path)
 
         train_X = train_data.drop(self.config.target_column, axis=1)
+        logger.info(f"Train x : {train_X.head}")
         train_y = train_data[self.config.target_column]
 
         test_y = test_data[self.config.target_column]
