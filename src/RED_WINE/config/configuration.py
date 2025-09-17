@@ -1,6 +1,6 @@
 from pathlib import Path
 from RED_WINE.utils.utils import read_yaml, create_directories
-from RED_WINE.entity.config_entity import DataIngestionConfig ,DataValidationConfig , DataTransformationConfig
+from RED_WINE.entity.config_entity import DataIngestionConfig ,DataValidationConfig , DataTransformationConfig , ModelTrainerConfig ,ModelEvaluateConfig
 from RED_WINE.constants.constant import *
 from RED_WINE.logging.logger  import logger
 
@@ -67,3 +67,41 @@ class ConfigurationManager:
         )
 
         return data_transformation_config
+    
+    def get_model_trainer_config(self) -> ModelTrainerConfig:
+        config  = self.config.model_trainer
+        schema = self.schema.TARGET_COLUMN
+        params = self.params.ElasticNet
+
+        create_directories([Path(config.root_dir)])
+
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            train_data_path = config.train_data_path,
+            test_data_path = config.test_data_path,
+            model_name = config.model_name,
+            alpha = params.alpha,
+            l1_ratio = params.l1_ratio,
+            target_column = schema.name
+            
+        )
+        return model_trainer_config
+    
+    def get_model_evaluation_config(self) -> ModelEvaluateConfig:
+
+        config = self.config.model_evaluate
+        schema = self.schema.TARGET_COLUMN
+
+        create_directories([Path(config.root_dir)]) 
+
+        model_eval_confg = ModelEvaluateConfig(
+            root_dir= config.root_dir,
+            test_data_path=config.test_data_path,
+            model_path=config.model_path,
+            metric_file_name= config.metric_file_name,
+            target_column_name= schema.name
+
+        )
+        return model_eval_confg
+
+

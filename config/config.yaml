@@ -14,3 +14,16 @@ data_validation:
 data_transformation:
   root_dir: artifacts/data_transformation
   data_path: artifacts/data_ingestion/WineQT.csv
+
+model_trainer:
+  root_dir: artifacts/model_trainer
+  train_data_path: artifacts\data_transformation\Train.csv
+  test_data_path: artifacts\data_transformation\Test.csv
+  model_name: ElasticNet
+ 
+model_evaluate:
+  root_dir: artifacts/model_evaluate
+  test_data_path: artifacts\data_transformation\Test.csv
+  model_path: artifacts\model_trainer\ElasticNet
+  metric_file_name: artifacts/model_evaluate/metrics.json
+
